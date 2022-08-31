@@ -14,9 +14,9 @@
  * See the "LICENSE" file for license.
  */
 
-#include <stdio.h>
+#include <cstdio>
 
-#include "r8brain-free/CDSPFIRFilter.h"
+#include "r8brain-free-src/CDSPFIRFilter.h"
 
 
 using namespace r8b;

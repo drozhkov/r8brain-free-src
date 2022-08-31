@@ -2,7 +2,7 @@
 // functions, for CDSPHBUpsampler.h.
 
 
-#include <stdio.h>
+#include <cstdio>
 
 
 void printSSE( const int n )

@@ -57,10 +57,11 @@
 #ifndef R8BBASE_INCLUDED
 #define R8BBASE_INCLUDED
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include <math.h>
+#include <cstdlib>
+#include <cstdint>
+#include <cstring>
+#include <cmath>
+
 #include "r8bconf.h"
 
 #if defined( _WIN32 )

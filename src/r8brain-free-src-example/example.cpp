@@ -13,9 +13,9 @@
  */
 
 #include <string>
-#include <vector>
+#include <memory>
 
-#include "r8brain-free/CDSPResampler.h"
+#include "r8brain-free-src/CDSPResampler.h"
 
 
 using namespace r8b;
@@ -67,8 +67,11 @@ int main()
 	outf.saveFile( "AudioOut.wav" );
 
 	const int InBufCapacity = 1024;
-	CFixedBuffer<double> InBufs[1 /*inf.ChannelCount*/];
-	CPtrKeeper<CDSPResampler24 *> Resamps[1 /*inf.ChannelCount*/];
+	auto InBufs = std::shared_ptr<CFixedBuffer<double>[]>(
+		new CFixedBuffer<double>[inf.ChannelCount] );
+
+	auto Resamps = std::shared_ptr<CPtrKeeper<CDSPResampler24 *>[]>(
+		new CPtrKeeper<CDSPResampler24 *>[inf.ChannelCount] );
 
 	for ( int i = 0; i < inf.ChannelCount; i++ ) {
 		InBufs[i].alloc( InBufCapacity );
@@ -77,11 +80,11 @@ int main()
 			new CDSPResampler24( inf.SampleRate, OutSampleRate, InBufCapacity );
 	}
 
-	long long int ol = inf.SampleCount * OutSampleRate / inf.SampleRate;
+	long long ol = inf.SampleCount * OutSampleRate / inf.SampleRate;
 
 	while ( ol > 0 ) {
 		int ReadCount;
-		inf.readData( InBufs, InBufCapacity, ReadCount );
+		inf.readData( InBufs.get(), InBufCapacity, ReadCount );
 
 		if ( ReadCount == -1 ) {
 			ReadCount = InBufCapacity;

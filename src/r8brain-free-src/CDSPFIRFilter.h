@@ -73,7 +73,7 @@ public:
 	 * percent.
 	 */
 
-	static double getLPMinTransBand()
+	constexpr static double getLPMinTransBand()
 	{
 		return( 0.5 );
 	}
@@ -83,7 +83,7 @@ public:
 	 * percent.
 	 */
 
-	static double getLPMaxTransBand()
+	constexpr static double getLPMaxTransBand()
 	{
 		return( 45.0 );
 	}
@@ -93,7 +93,7 @@ public:
 	 * decibel.
 	 */
 
-	static double getLPMinAtten()
+	constexpr static double getLPMinAtten()
 	{
 		return( 49.0 );
 	}
@@ -103,7 +103,7 @@ public:
 	 * decibel.
 	 */
 
-	static double getLPMaxAtten()
+	constexpr static double getLPMaxAtten()
 	{
 		return( 218.0 );
 	}

@@ -3,13 +3,14 @@ cmake_minimum_required (VERSION 3.8)
 
 
 #
-project ("r8brain-free-example")
+project ("r8brain-free-src-example")
 
 
 #
 ##
 set(LIBS
-	r8brain-free
+	r8brain-free-src
+	pffft-double
 )
 
 ##

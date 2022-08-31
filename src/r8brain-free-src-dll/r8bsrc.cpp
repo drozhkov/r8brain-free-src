@@ -22,8 +22,11 @@
 //$ export "r8b_process"
 
 #include "r8bsrc.h"
-#include "r8brain-free/CDSPResampler.h"
+#include "r8brain-free-src/CDSPResampler.h"
+
+
 using namespace r8b;
+
 
 #if defined( __INTEL_COMPILER )
 
