@@ -97,40 +97,34 @@
  *
  * The "r8brain-free-src" sample rate converter library namespace.
  */
-
 namespace r8b {
 
 /**
  * Macro defines r8brain-free-src version string.
  */
-
 #define R8B_VERSION "5.7"
 
 /**
  * The macro equals to "pi" constant, fits 53-bit floating point mantissa.
  */
-
 #define R8B_PI 3.14159265358979324
 
 /**
  * The R8B_2PI macro equals to "2 * pi" constant, fits 53-bit floating point
  * mantissa.
  */
-
 #define R8B_2PI 6.28318530717958648
 
 /**
  * The R8B_3PI macro equals to "3 * pi" constant, fits 53-bit floating point
  * mantissa.
  */
-
 #define R8B_3PI 9.42477796076937972
 
 /**
  * The R8B_PId2 macro equals to "pi divided by 2" constant, fits 53-bit
  * floating point mantissa.
  */
-
 #define R8B_PId2 1.57079632679489662
 
 /**
@@ -143,7 +137,6 @@ namespace r8b {
  *
  * @param ClassName The name of the class which uses this macro.
  */
-
 #define R8BNOCTOR( ClassName ) \
 	private: \
 		ClassName( const ClassName& ) { } \
@@ -155,7 +148,6 @@ namespace r8b {
  * Class that implements "new" and "delete" operators that use standard
  * malloc() and free() functions.
  */
-
 class CStdClassAllocator
 {
 public:
@@ -164,7 +156,6 @@ public:
 	 * @param p Pointer to object's pre-allocated memory block.
 	 * @return Pointer to object.
 	 */
-
 	void* operator new( size_t, void* p )
 	{
 		return( p );
@@ -174,7 +165,6 @@ public:
 	 * @param n The size of the object, in bytes.
 	 * @return Pointer to the allocated memory block for the object.
 	 */
-
 	void* operator new( size_t n )
 	{
 		return( :: malloc( n ));
@@ -184,7 +174,6 @@ public:
 	 * @param n The size of the object, in bytes.
 	 * @return Pointer to the allocated memory block for the object.
 	 */
-
 	void* operator new[]( size_t n )
 	{
 		return( :: malloc( n ));
@@ -195,7 +184,6 @@ public:
 	 *
 	 * @param p Pointer to the allocated memory block for the object.
 	 */
-
 	void operator delete( void* p )
 	{
 		:: free( p );
@@ -206,7 +194,6 @@ public:
 	 *
 	 * @param p Pointer to the allocated memory block for the object.
 	 */
-
 	void operator delete[]( void* p )
 	{
 		:: free( p );
@@ -218,7 +205,6 @@ public:
  *
  * Memory buffer allocator that uses "stdlib" standard memory functions.
  */
-
 class CStdMemAllocator : public CStdClassAllocator
 {
 public:
@@ -228,7 +214,6 @@ public:
 	 * @param Size The size of the block, in bytes.
 	 * @result The pointer to the allocated block.
 	 */
-
 	static void* allocmem( const size_t Size )
 	{
 		return( :: malloc( Size ));
@@ -241,7 +226,6 @@ public:
 	 * @param Size The new size of the block, in bytes.
 	 * @result The pointer to the (re)allocated block.
 	 */
-
 	static void* reallocmem( void* p, const size_t Size )
 	{
 		return( :: realloc( p, Size ));
@@ -252,7 +236,6 @@ public:
 	 *
 	 * @param p Pointer to the allocated block, can be NULL.
 	 */
-
 	static void freemem( void* p )
 	{
 		:: free( p );
@@ -267,7 +250,6 @@ public:
  * @param align Alignment, in bytes, power-of-2.
  * @tparam T Pointer's element type.
  */
-
 template< typename T >
 inline T* alignptr( T* const ptr, const uintptr_t align )
 {
@@ -291,7 +273,6 @@ inline T* alignptr( T* const ptr, const uintptr_t align )
  *
  * @tparam T The type of the stored elements (e.g. "double").
  */
-
 template< typename T >
 class CFixedBuffer : public R8B_MEMALLOCCLASS
 {
@@ -310,7 +291,6 @@ public:
 	 *
 	 * @param Capacity Storage for this number of elements to allocate.
 	 */
-
 	CFixedBuffer( const int Capacity )
 	{
 		R8BASSERT( Capacity > 0 || Capacity == 0 );
@@ -332,7 +312,6 @@ public:
 	 *
 	 * @param Capacity Storage for this number of elements to allocate.
 	 */
-
 	void alloc( const int Capacity )
 	{
 		R8BASSERT( Capacity > 0 || Capacity == 0 );
@@ -352,7 +331,6 @@ public:
 	 * @param PrevCapacity Previous capacity of *this buffer.
 	 * @param NewCapacity Storage for this number of elements to allocate.
 	 */
-
 	void realloc( const int PrevCapacity, const int NewCapacity )
 	{
 		R8BASSERT( PrevCapacity >= 0 );
@@ -380,7 +358,6 @@ public:
 	/**
 	 * Function deallocates a previously allocated buffer.
 	 */
-
 	void free()
 	{
 		freemem( Data0 );
@@ -392,7 +369,6 @@ public:
 	 * @return Pointer to the first element of the allocated buffer, NULL if
 	 * not allocated.
 	 */
-
 	T* getPtr() const
 	{
 		return( Data );
@@ -402,7 +378,6 @@ public:
 	 * @return Pointer to the first element of the allocated buffer, NULL if
 	 * not allocated.
 	 */
-
 	operator T* () const
 	{
 		return( Data );
@@ -428,7 +403,6 @@ private:
  * @tparam T Pointer type to operate with, must include the asterisk (e.g.
  * "CDSPFIRFilter*").
  */
-
 template< class T >
 class CPtrKeeper
 {
@@ -446,7 +420,6 @@ public:
 	 * @param aObject Pointer to object to keep, can be NULL.
 	 * @tparam T2 Object's pointer type.
 	 */
-
 	template< class T2 >
 	CPtrKeeper( T2 const aObject )
 		: Object( aObject )
@@ -465,7 +438,6 @@ public:
 	 * @param aObject Pointer to object to keep, can be NULL.
 	 * @tparam T2 Object's pointer type.
 	 */
-
 	template< class T2 >
 	void operator = ( T2 const aObject )
 	{
@@ -476,7 +448,6 @@ public:
 	/**
 	 * @return Pointer to keeped object, NULL if no object is being kept.
 	 */
-
 	T operator -> () const
 	{
 		return( Object );
@@ -485,7 +456,6 @@ public:
 	/**
 	 * @return Pointer to keeped object, NULL if no object is being kept.
 	 */
-
 	operator T () const
 	{
 		return( Object );
@@ -494,7 +464,6 @@ public:
 	/**
 	 * Function resets the keeped pointer and deletes the keeped object.
 	 */
-
 	void reset()
 	{
 		T DelObj = Object;
@@ -506,7 +475,6 @@ public:
 	 * @return Function returns the keeped pointer and resets it in *this
 	 * keeper without object deletion.
 	 */
-
 	T unkeep()
 	{
 		T ResObject = Object;
@@ -528,7 +496,6 @@ private:
  * The acquire() function can be called recursively, in the same thread, for
  * this kind of thread-locking mechanism. This will not produce a dead-lock.
  */
-
 class CSyncObject
 {
 	R8BNOCTOR( CSyncObject );
@@ -560,7 +527,6 @@ public:
 	 * Function "acquires" *this thread synchronizer object immediately or
 	 * waits until another thread releases it.
 	 */
-
 	void acquire()
 	{
 		#if defined( _WIN32 )
@@ -574,7 +540,6 @@ public:
 	 * Function "releases" *this previously acquired thread synchronizer
 	 * object.
 	 */
-
 	void release()
 	{
 		#if defined( _WIN32 )
@@ -604,7 +569,6 @@ private:
  * functions as an "automatic" object allocated on the stack, possibly via the
  * R8BSYNC() macro.
  */
-
 class CSyncKeeper
 {
 	R8BNOCTOR( CSyncKeeper );
@@ -619,7 +583,6 @@ public:
 	 * @param aSyncObj Pointer to the sync object which should be used for
 	 * sync'ing, can be NULL.
 	 */
-
 	CSyncKeeper( CSyncObject* const aSyncObj )
 		: SyncObj( aSyncObj )
 	{
@@ -633,7 +596,6 @@ public:
 	 * @param aSyncObj Reference to the sync object which should be used for
 	 * sync'ing.
 	 */
-
 	CSyncKeeper( CSyncObject& aSyncObj )
 		: SyncObj( &aSyncObj )
 	{
@@ -666,7 +628,6 @@ protected:
  * @param SyncObject An object of the CSyncObject type that is used for
  * synchronization.
  */
-
 #define R8BSYNC( SyncObject ) R8BSYNC_( SyncObject, __LINE__ )
 #define R8BSYNC_( SyncObject, id ) R8BSYNC__( SyncObject, id )
 #define R8BSYNC__( SyncObject, id ) CSyncKeeper SyncKeeper##id( SyncObject )
@@ -676,7 +637,6 @@ protected:
  *
  * Class implements sine signal generator without biasing.
  */
-
 class CSineGen
 {
 public:
@@ -691,7 +651,6 @@ public:
 	 * @param si Sine function increment, in radians.
 	 * @param ph Starting phase, in radians. Add R8B_PId2 for cosine function.
 	 */
-
 	CSineGen( const double si, const double ph )
 		: svalue1( sin( ph ))
 		, svalue2( sin( ph - si ))
@@ -707,7 +666,6 @@ public:
 	 * @param g The overall gain factor, 1.0 for unity gain (-1.0 to 1.0
 	 * amplitude).
 	 */
-
 	CSineGen( const double si, const double ph, const double g )
 		: svalue1( sin( ph ) * g )
 		, svalue2( sin( ph - si ) * g )
@@ -722,7 +680,6 @@ public:
 	 * @param si Sine function increment, in radians.
 	 * @param ph Starting phase, in radians. Add R8B_PId2 for cosine function.
 	 */
-
 	void init( const double si, const double ph )
 	{
 		svalue1 = sin( ph );
@@ -738,7 +695,6 @@ public:
 	 * @param g The overall gain factor, 1.0 for unity gain (-1.0 to 1.0
 	 * amplitude).
 	 */
-
 	void init( const double si, const double ph, const double g )
 	{
 		svalue1 = sin( ph ) * g;
@@ -749,7 +705,6 @@ public:
 	/**
 	 * @return Next value of the sine function, without biasing.
 	 */
-
 	double generate()
 	{
 		const double res = svalue1;
@@ -775,7 +730,6 @@ private:
  * occupancy means how many significant lower bits are necessary to store a
  * specified value. Function treats the input value as unsigned.
  */
-
 inline int getBitOccupancy( const int v )
 {
 	static const uint8_t OccupancyTable[] =
@@ -826,7 +780,6 @@ inline int getBitOccupancy( const int v )
  * @param[out] im0 Resulting imaginary part of the complex frequency response.
  * @param fltlat Filter's latency, in samples.
  */
-
 inline void calcFIRFilterResponse( const double* flt, int fltlen,
 	const double th, double& re0, double& im0, const int fltlat = 0 )
 {
@@ -884,7 +837,6 @@ inline void calcFIRFilterResponse( const double* flt, int fltlen,
  * @param[out] gd Resulting group delay at the specified frequency, in
  * samples.
  */
-
 inline void calcFIRFilterResponseAndGroupDelay( const double* const flt,
 	const int fltlen, const double th, double& re, double& im, double& gd )
 {
@@ -945,7 +897,6 @@ inline void calcFIRFilterResponseAndGroupDelay( const double* const flt,
  * @param DCGain Filter's gain at DC (linear, non-decibel value).
  * @param pstep "p" array step.
  */
-
 inline void normalizeFIRFilter( double* const p, const int l,
 	const double DCGain, const int pstep = 1 )
 {
@@ -989,7 +940,6 @@ inline void normalizeFIRFilter( double* const p, const int l,
  * @param x3 Point at x+3 position.
  * @param x4 Point at x+4 position.
  */
-
 inline void calcSpline3p8Coeffs( double* const c, const double xm3,
 	const double xm2, const double xm1, const double x0, const double x1,
 	const double x2, const double x3, const double x4 )
@@ -1021,7 +971,6 @@ inline void calcSpline3p8Coeffs( double* const c, const double xm3,
  * @param x3 Point at x+3 position.
  * @param x4 Point at x+4 position.
  */
-
 inline void calcSpline2p8Coeffs( double* const c, const double xm3,
 	const double xm2, const double xm1, const double x0, const double x1,
 	const double x2, const double x3, const double x4 )
@@ -1042,7 +991,6 @@ inline void calcSpline2p8Coeffs( double* const c, const double xm3,
  * @param[in] y Equidistant point values. Value at offset 1 corresponds to
  * x=0 point.
  */
-
 inline void calcSpline3p4Coeffs( double* const c, const double* const y )
 {
 	c[ 0 ] = y[ 1 ];
@@ -1059,7 +1007,6 @@ inline void calcSpline3p4Coeffs( double* const c, const double* const y )
  * @param[in] y Equidistant point values. Value at offset 2 corresponds to
  * x=0 point.
  */
-
 inline void calcSpline3p6Coeffs( double* const c, const double* const y )
 {
 	c[ 0 ] = y[ 2 ];
@@ -1079,7 +1026,6 @@ inline void calcSpline3p6Coeffs( double* const c, const double* const y )
  * @tparam T Values' type.
  * @return The minimum of 2 values.
  */
-
 template< typename T >
 inline T min( const T& v1, const T& v2 )
 {
@@ -1096,7 +1042,6 @@ inline T min( const T& v1, const T& v2 )
  * @tparam T Values' type.
  * @return The maximum of 2 values.
  */
-
 template< typename T >
 inline T max( const T& v1, const T& v2 )
 {
@@ -1114,7 +1059,6 @@ inline T max( const T& v1, const T& v2 )
  * @param maxv Maximal allowed value.
  * @return "Clamped" value.
  */
-
 inline double clampr( const double Value, const double minv,
 	const double maxv )
 {
@@ -1137,7 +1081,6 @@ inline double clampr( const double Value, const double minv,
  * @param x Value to square.
  * @return Squared value of the argument.
  */
-
 inline double sqr( const double x )
 {
 	return( x * x );
@@ -1148,7 +1091,6 @@ inline double sqr( const double x )
  * @param p Power factor.
  * @return Returns pow() function's value with input value's sign check.
  */
-
 inline double pows( const double v, const double p )
 {
 	return( v < 0.0 ? -pow( -v, p ) : pow( v, p ));
@@ -1158,7 +1100,6 @@ inline double pows( const double v, const double p )
  * @param v Input value.
  * @return Calculated single-argument Gaussian function of the input value.
  */
-
 inline double gauss( const double v )
 {
 	return( exp( -( v * v )));
@@ -1168,7 +1109,6 @@ inline double gauss( const double v )
  * @param v Input value.
  * @return Calculated inverse hyperbolic sine of the input value.
  */
-
 inline double asinh( const double v )
 {
 	return( log( v + sqrt( v * v + 1.0 )));
@@ -1180,7 +1120,6 @@ inline double asinh( const double v )
  * of the input value. Approximate value. Coefficients by Abramowitz and
  * Stegun.
  */
-
 inline double besselI0( const double x )
 {
 	const double ax = fabs( x );

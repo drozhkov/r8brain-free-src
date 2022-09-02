@@ -14,101 +14,101 @@
 
 #include <string>
 #include <memory>
+#include <iostream>
+#include <chrono>
 
 #include "r8brain-free-src/CDSPResampler.h"
+
+#include "CWaveFile.hpp"
 
 
 using namespace r8b;
 
 
-class CWaveFile {
-public:
-	double SampleRate;
-	size_t ChannelCount;
-	size_t SampleCount;
-
-public:
-	void loadFile( const std::string & name )
-	{
-	}
-
-	void saveFile( const std::string & name )
-	{
-	}
-
-	void inheritFormat( CWaveFile & wf )
-	{
-	}
-
-	void readData( CFixedBuffer<double> * buffers, int, int & )
-	{
-	}
-
-	void writeData( double *[], int )
-	{
-	}
-
-	void finalize()
-	{
-	}
-};
-
-
-int main()
+int main( int argc, char *argv[] )
 {
+	if ( argc < 3 )
+	{
+		std::cout << argv[ 0 ] << ": <in-wav> <out-wav>" << std::endl;
+		return -1;
+	}
+
 	const double OutSampleRate = 96000.0;
 
 	CWaveFile inf;
-	inf.loadFile( "Audio.wav" );
+	// inf.loadFile( "Audio.wav" );
+	inf.loadFile( argv[ 1 ] );
+
+	std::cout << inf.ChannelCount << ", " << inf.SampleRate << ", "
+			  << inf.BitsPerSample << std::endl;
 
 	CWaveFile outf;
 	outf.inheritFormat( inf );
 	outf.SampleRate = OutSampleRate;
-	outf.saveFile( "AudioOut.wav" );
+	// outf.saveFile( "AudioOut.wav" );
+	outf.saveFile( argv[ 2 ] );
 
 	const int InBufCapacity = 1024;
-	auto InBufs = std::shared_ptr<CFixedBuffer<double>[]>(
-		new CFixedBuffer<double>[inf.ChannelCount] );
+	auto InBufs = std::shared_ptr< CFixedBuffer< double >[] >(
+		new CFixedBuffer< double >[ inf.ChannelCount ] );
 
-	auto Resamps = std::shared_ptr<CPtrKeeper<CDSPResampler24 *>[]>(
-		new CPtrKeeper<CDSPResampler24 *>[inf.ChannelCount] );
+	auto Resamps = std::shared_ptr< CPtrKeeper< CDSPResampler24 * >[] >(
+		new CPtrKeeper< CDSPResampler24 * >[ inf.ChannelCount ] );
 
-	for ( int i = 0; i < inf.ChannelCount; i++ ) {
-		InBufs[i].alloc( InBufCapacity );
-
-		Resamps[i] =
+	for ( int i = 0; i < inf.ChannelCount; i++ )
+	{
+		InBufs[ i ].alloc( InBufCapacity );
+		Resamps[ i ] =
 			new CDSPResampler24( inf.SampleRate, OutSampleRate, InBufCapacity );
 	}
 
 	long long ol = inf.SampleCount * OutSampleRate / inf.SampleRate;
+	std::chrono::duration< double > processingTime( 0 );
 
-	while ( ol > 0 ) {
+	while ( ol > 0 )
+	{
 		int ReadCount;
 		inf.readData( InBufs.get(), InBufCapacity, ReadCount );
 
-		if ( ReadCount == -1 ) {
+		if ( ReadCount == -1 )
+		{
 			ReadCount = InBufCapacity;
 
-			for ( int i = 0; i < inf.ChannelCount; i++ ) {
-				memset( &InBufs[i][0], 0, ReadCount * sizeof( double ) );
+			for ( int i = 0; i < inf.ChannelCount; i++ )
+			{
+				memset( &InBufs[ i ][ 0 ], 0, ReadCount * sizeof( double ) );
 			}
 		}
 
-		double * opp[1 /*inf.ChannelCount*/];
+		auto opp =
+			std::shared_ptr< double *[] >( new double *[ inf.ChannelCount ] );
+
 		int WriteCount; // At initial steps this variable can be equal to 0
 						// after resampler. Same number for all channels.
 
-		for ( int i = 0; i < inf.ChannelCount; i++ ) {
-			WriteCount = Resamps[i]->process( InBufs[i], ReadCount, opp[i] );
+		for ( int i = 0; i < inf.ChannelCount; i++ )
+		{
+			auto startTs = std::chrono::steady_clock::now();
+
+			WriteCount =
+				Resamps[ i ]->process( InBufs[ i ], ReadCount, opp[ i ] );
+
+			processingTime += ( std::chrono::steady_clock::now() - startTs );
 		}
 
-		if ( WriteCount > ol ) {
+		// std::cout << WriteCount << std::endl;
+
+		if ( WriteCount > ol )
+		{
 			WriteCount = (int)ol;
 		}
 
-		outf.writeData( opp, WriteCount );
+		outf.writeData( opp.get(), WriteCount );
 		ol -= WriteCount;
 	}
 
 	outf.finalize();
+
+	std::cout << "processing time: " << processingTime.count() << " s"
+			  << std::endl;
 }

@@ -3,9 +3,9 @@ AlignAfterOpenBracket: DontAlign
 AllowShortFunctionsOnASingleLine: None
 BasedOnStyle: LLVM
 BraceWrapping:
-  AfterClass: false
-  AfterControlStatement: false
-  AfterEnum: false
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
   AfterFunction: true
   AfterNamespace: false
   AfterStruct: false
@@ -15,6 +15,7 @@ BraceWrapping:
   IndentBraces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true
+  BeforeWhile: true
 BreakBeforeBraces: Custom
 ColumnLimit: 80
 Cpp11BracedListStyle: false
@@ -44,3 +45,7 @@ BinPackParameters: false
 BreakConstructorInitializers: BeforeComma
 BreakBeforeTernaryOperators: true
 ContinuationIndentWidth: 4
+DerivePointerAlignment: true
+SpacesInAngles: Always
+SpacesInContainerLiterals: true
+SpacesInSquareBrackets: true

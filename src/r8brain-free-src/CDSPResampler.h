@@ -42,7 +42,6 @@ namespace r8b {
  * Use the CDSPResampler24 class for 24-bit resampling (including 32-bit
  * floating point resampling).
  */
-
 class CDSPResampler : public CDSPProcessor
 {
 public:
@@ -111,7 +110,6 @@ public:
 	 * fractional delay.
 	 * @see CDSPFIRFilterCache::getLPFilter()
 	 */
-
 	CDSPResampler( const double SrcSampleRate, const double DstSampleRate,
 		const int aMaxInLen, const double ReqTransBand = 2.0,
 		const double ReqAtten = 206.91,
@@ -416,7 +414,6 @@ public:
 	 * output buffer length that depends on the MaxInLen supplied to the
 	 * constructor.
 	 */
-
 	virtual int getMaxOutLen( const int/* MaxInLen */ ) const
 	{
 		return( CurMaxOutLen );
@@ -433,7 +430,6 @@ public:
 	 * efficient to clear the state of the resampler object than to destroy it
 	 * and create a new object.
 	 */
-
 	virtual void clear()
 	{
 		int i;
@@ -471,7 +467,6 @@ public:
 	 * bigger output buffer, it is suggested to check the returned number of
 	 * samples so that no overflow of the bigger output buffer happens.
 	 */
-
 	virtual int process( double* ip0, int l, double*& op0 )
 	{
 		R8BASSERT( l >= 0 );
@@ -502,7 +497,6 @@ public:
 	 * @tparam Tin Input buffer's element type.
 	 * @tparam Tout Output buffer's element type.
 	 */
-
 	template< typename Tin, typename Tout >
 	void oneshot( const Tin* ip, int iplen, Tout* op, int oplen )
 	{
@@ -575,7 +569,6 @@ public:
 	 * Note that it is advisable to cache the value returned by this function,
 	 * for each SrcSampleRate/DstSampleRate pair, if it is called frequently.
 	 */
-
 	int getInLenBeforeOutStart()
 	{
 		int inc = 0;
@@ -628,7 +621,6 @@ private:
 	 * @param Proc Processor to add. This pointer is inherited and will be
 	 * destroyed on *this object's destruction.
 	 */
-
 	void addProcessor( CDSPProcessor* const Proc )
 	{
 		if( StepCount == StepCapacity )
@@ -657,7 +649,6 @@ private:
 	/**
 	 * Function creates temporary buffers.
 	 */
-
 	void createTmpBuffers()
 	{
 		const int ol = TmpBufCapacities[ 0 ] + TmpBufCapacities[ 1 ];
@@ -680,7 +671,6 @@ private:
  * using linear-phase low-pass filter. See the r8b::CDSPResampler class for
  * details.
  */
-
 class CDSPResampler16 : public CDSPResampler
 {
 public:
@@ -694,7 +684,6 @@ public:
 	 * samples) that will be passed to the resampler.
 	 * @param ReqTransBand Required transition band, in percent.
 	 */
-
 	CDSPResampler16( const double SrcSampleRate, const double DstSampleRate,
 		const int aMaxInLen, const double ReqTransBand = 2.0 )
 		: CDSPResampler( SrcSampleRate, DstSampleRate, aMaxInLen, ReqTransBand,
@@ -711,7 +700,6 @@ public:
  * are non-dynamic signals, and thus need resampler with a lesser SNR. See the
  * r8b::CDSPResampler class for details.
  */
-
 class CDSPResampler16IR : public CDSPResampler
 {
 public:
@@ -725,7 +713,6 @@ public:
 	 * samples) that will be passed to the resampler.
 	 * @param ReqTransBand Required transition band, in percent.
 	 */
-
 	CDSPResampler16IR( const double SrcSampleRate, const double DstSampleRate,
 		const int aMaxInLen, const double ReqTransBand = 2.0 )
 		: CDSPResampler( SrcSampleRate, DstSampleRate, aMaxInLen, ReqTransBand,
@@ -741,7 +728,6 @@ public:
  * (including 32-bit floating point resampling), using linear-phase low-pass
  * filter. See the r8b::CDSPResampler class for details.
  */
-
 class CDSPResampler24 : public CDSPResampler
 {
 public:
@@ -755,7 +741,6 @@ public:
 	 * samples) that will be passed to the resampler.
 	 * @param ReqTransBand Required transition band, in percent.
 	 */
-
 	CDSPResampler24( const double SrcSampleRate, const double DstSampleRate,
 		const int aMaxInLen, const double ReqTransBand = 2.0 )
 		: CDSPResampler( SrcSampleRate, DstSampleRate, aMaxInLen, ReqTransBand,
