@@ -30,7 +30,7 @@ SortIncludes: false
 SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
 SpaceBeforeAssignmentOperators: true
-SpaceBeforeParens: ControlStatements
+SpaceBeforeParens: Never
 SpaceInEmptyParentheses: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: true

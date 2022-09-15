@@ -16,6 +16,7 @@
 #include <memory>
 #include <iostream>
 #include <chrono>
+#include <vector>
 
 #include "r8brain-free-src/CDSPResampler.h"
 
@@ -27,7 +28,7 @@ using namespace r8b;
 
 int main( int argc, char *argv[] )
 {
-	if ( argc < 3 )
+	if( argc < 3 )
 	{
 		std::cout << argv[ 0 ] << ": <in-wav> <out-wav>" << std::endl;
 		return -1;
@@ -49,13 +50,10 @@ int main( int argc, char *argv[] )
 	outf.saveFile( argv[ 2 ] );
 
 	const int InBufCapacity = 1024;
-	auto InBufs = std::shared_ptr< CFixedBuffer< double >[] >(
-		new CFixedBuffer< double >[ inf.ChannelCount ] );
+	std::vector< CFixedBuffer< double > > InBufs( inf.ChannelCount );
+	std::vector< CPtrKeeper< CDSPResampler24 * > > Resamps( inf.ChannelCount );
 
-	auto Resamps = std::shared_ptr< CPtrKeeper< CDSPResampler24 * >[] >(
-		new CPtrKeeper< CDSPResampler24 * >[ inf.ChannelCount ] );
-
-	for ( int i = 0; i < inf.ChannelCount; i++ )
+	for( int i = 0; i < inf.ChannelCount; i++ )
 	{
 		InBufs[ i ].alloc( InBufCapacity );
 		Resamps[ i ] =
@@ -65,28 +63,29 @@ int main( int argc, char *argv[] )
 	long long ol = inf.SampleCount * OutSampleRate / inf.SampleRate;
 	std::chrono::duration< double > processingTime( 0 );
 
-	while ( ol > 0 )
+	std::vector< double * > opp( inf.ChannelCount );
+
+	while( ol > 0 )
 	{
 		int ReadCount;
-		inf.readData( InBufs.get(), InBufCapacity, ReadCount );
+		inf.readData( InBufs.data(), InBufCapacity, ReadCount );
 
-		if ( ReadCount == -1 )
+		if( ReadCount == -1 )
 		{
 			ReadCount = InBufCapacity;
 
-			for ( int i = 0; i < inf.ChannelCount; i++ )
+			for( int i = 0; i < inf.ChannelCount; i++ )
 			{
-				memset( &InBufs[ i ][ 0 ], 0, ReadCount * sizeof( double ) );
+				memset( static_cast< double * >( InBufs[ i ] ),
+					0,
+					ReadCount * sizeof( double ) );
 			}
 		}
-
-		auto opp =
-			std::shared_ptr< double *[] >( new double *[ inf.ChannelCount ] );
 
 		int WriteCount; // At initial steps this variable can be equal to 0
 						// after resampler. Same number for all channels.
 
-		for ( int i = 0; i < inf.ChannelCount; i++ )
+		for( int i = 0; i < inf.ChannelCount; i++ )
 		{
 			auto startTs = std::chrono::steady_clock::now();
 
@@ -98,12 +97,12 @@ int main( int argc, char *argv[] )
 
 		// std::cout << WriteCount << std::endl;
 
-		if ( WriteCount > ol )
+		if( WriteCount > ol )
 		{
 			WriteCount = (int)ol;
 		}
 
-		outf.writeData( opp.get(), WriteCount );
+		outf.writeData( opp.data(), WriteCount );
 		ol -= WriteCount;
 	}
 

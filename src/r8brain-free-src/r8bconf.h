@@ -25,7 +25,6 @@
 	 * Do not forget to call the ippInit() function at the start of the
 	 * application, before using this library's functions.
 	 */
-
 	#define R8B_IPP 0
 
 //	#include <ippcore.h>
@@ -39,7 +38,6 @@
 	 *
 	 * @param e Expression to check.
 	 */
-
 	#define R8BASSERT( e )
 #endif // !defined( R8BASSERT )
 
@@ -52,7 +50,6 @@
 	 * standard "printf" format string followed by several parameters
 	 * (__VA_ARGS__).
 	 */
-
 	#define R8BCONSOLE( ... )
 #endif // !defined( R8BCONSOLE )
 
@@ -66,7 +63,6 @@
 	 * The classes that are best placed on stack or as class members are not
 	 * derived from any class.
 	 */
-
 	#define R8B_BASECLASS :: r8b :: CStdClassAllocator
 #endif // !defined( R8B_BASECLASS )
 
@@ -75,7 +71,6 @@
 	 * Macro defines the name of the class that implements raw memory
 	 * allocation functions, see the r8b::CStdMemAllocator class for details.
 	 */
-
 	#define R8B_MEMALLOCCLASS :: r8b :: CStdMemAllocator
 #endif // !defined( R8B_MEMALLOCCLASS )
 
@@ -85,7 +80,6 @@
 	 * The actual number can be higher if many different filters are in use at
 	 * the same time.
 	 */
-
 	#define R8B_FILTER_CACHE_MAX 96
 #endif // !defined( R8B_FILTER_CACHE_MAX )
 
@@ -97,7 +91,6 @@
 	 * filter banks are usually big objects, it is advisable to keep this
 	 * cache size small.
 	 */
-
 	#define R8B_FRACBANK_CACHE_MAX 12
 #endif // !defined( R8B_FRACBANK_CACHE_MAX )
 
@@ -107,7 +100,6 @@
 	 * testing: in this mode the filter bank becomes a dynamic member of the
 	 * CDSPFracInterpolator object instead of being a global static object.
 	 */
-
 	#define R8B_FLTTEST 0
 #endif // !defined( R8B_FLTTEST )
 
@@ -122,7 +114,6 @@
 	 * Also does not apply to the cases when a whole-numbered (2X, 3X, etc.)
 	 * resampling is in the actual use.
 	 */
-
 	#define R8B_FASTTIMING 0
 #endif // !defined( R8B_FASTTIMING )
 
@@ -135,7 +126,6 @@
 	 * issue, setting this macro to 1 is preferrable. This macro can only have
 	 * a value of 0 or 1.
 	 */
-
 	#define R8B_EXTFFT 0
 #endif // !defined( R8B_EXTFFT )
 
@@ -146,7 +136,6 @@
 	 * interpolation, when stop-band attenuation higher than 120 dB is not
 	 * required.
 	 */
-
 	#define R8B_PFFFT 0
 #endif // !defined( R8B_PFFFT )
 
@@ -159,7 +148,6 @@
 	 * When defined as 1, enables PFFFT "double" routines which are fast, and
 	 * which provide the highest precision.
 	 */
-
 	#define R8B_PFFFT_DOUBLE 0
 #endif // !defined( R8B_PFFFT_DOUBLE )
 
@@ -169,7 +157,6 @@
 	 * for FFT operations, for algorithms that work with "float" values. This
 	 * macro should not be changed from the default "0" here.
 	 */
-
 	#define R8B_FLOATFFT 0
 #endif // !defined( R8B_FLOATFFT )
 
